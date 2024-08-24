@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "spe-project"
+version = "0.1.0"
+description = ""
+authors = ["WontJump <138326933+WontJump@users.noreply.github.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+dynetx = "^0.3.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
