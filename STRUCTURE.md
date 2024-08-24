@@ -1,22 +1,3 @@
-# elements 
-- graph dynamics engine 
-- active graph 
-- spe driver 
-- initial graph state 
-- graph visualisation 
-
-- active graph should be completely controlled within DyNetX 
-- graph visualisation can be handled by a Dynetex object augmented with the SPE happening at that time step 
-    - Need a dictionary of SPE's keyed by timestamp 
-
-# Programming the active graph 
---> (a depends on b) 
-
-- active graph initialised with initial graph state default null 
-- spe driver then decides which spe to activate and the time stamp 
-- spe driver --> previous active state 
-- once spe driver defines the spe then pass to the graph dynamics engine 
-- graph dynamics engine then updates the active graph with the new edges and attributes so 
 
 # Pipe line 
 
