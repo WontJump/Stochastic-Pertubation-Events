@@ -19,6 +19,12 @@
 
 **Graph visualisation** 
 
-
+**Measurable topological properties** 
+- clustering 
+- polarisation when considering homophily models 
 
 # TODO 
+- make the active graphs update in teh change_driver function 
+- check that the graphSPEModel works 
+- make simplest possible test functions for graph dynamics engine and SPE drivers 
+- try and initialise the polarisation example 
