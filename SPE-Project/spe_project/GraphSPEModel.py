@@ -7,7 +7,7 @@ class GraphSPEModel:
         graph_dynamics_engine, 
         init_conditions,
         SPE_driver,
-        end_time  
+        end_time = 5   
         ):
 
         self.graph_dynamics_engine = graph_dynamics_engine
@@ -15,15 +15,18 @@ class GraphSPEModel:
         self.SPE_driver = SPE_driver 
         self.end_time = end_time 
     
-
-    def graph_initialiser(self): 
-        init_graph = self.init_conditions['graph']
-        init_attr = self.init_conditions['attr']
-        active_graph = dn.DynaGraph(
-            data = init_graph, 
-            attr = init_attr
-        ) 
-        return active_graph 
+    ''' 
+    Right now I'm actually assuming I'm going to have the working graph in networkX. as such we don't need
+    initiallisation we just enforce the init_conditions being a networkx graph 
+    '''
+    # def graph_initialiser(self): 
+    #     init_graph = self.init_conditions['graph']
+    #     init_attr = self.init_conditions['attr']
+    #     active_graph = dn.DynaGraph(
+    #         data = init_graph, 
+    #         attr = init_attr
+    #     ) 
+    #     return active_graph 
 
 
     def change_driver(self, SuperChanges, active_graph): 
