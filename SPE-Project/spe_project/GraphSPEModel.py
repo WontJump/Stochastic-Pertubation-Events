@@ -1,60 +1,81 @@
 import dynetx as dn 
+import networkx as nx 
+'''
+timestepper controls how many timesteps are triggered 
+timestep is everything that happens in a time step namely: 
+    - SPE_driver chooses the sets where the dynamics will take place
+    - SuperC is the set of all 'new graphs' after the dynamic takes place 
+    - apply_changes applys these changes to the current graph 
+    - record_timestep records all the stuff that happens 
 
+'''
 class GraphSPEModel: 
     def __init__(
-    # assumes that init_conditions = {'graph' : NetworkX.Graph, 'attr': dictionary}
         self, 
-        graph_dynamics_engine, 
-        init_conditions,
+        dynamic, 
         SPE_driver,
-        end_time = 5   
+        end_time = 5, 
+        init_conditions = nx.Graph() ,
         ):
 
-        self.graph_dynamics_engine = graph_dynamics_engine
-        self.init_conditions = init_conditions
+        self.dynamic = dynamic
         self.SPE_driver = SPE_driver 
-        self.end_time = end_time 
-    
-    ''' 
-    Right now I'm actually assuming I'm going to have the working graph in networkX. as such we don't need
-    initiallisation we just enforce the init_conditions being a networkx graph 
-    '''
-    # def graph_initialiser(self): 
-    #     init_graph = self.init_conditions['graph']
-    #     init_attr = self.init_conditions['attr']
-    #     active_graph = dn.DynaGraph(
-    #         data = init_graph, 
-    #         attr = init_attr
-    #     ) 
-    #     return active_graph 
+        self.end_time = end_time
+        self.active_graph = init_conditions
+
+        self.SPE_dict = {}
+        self.Change_dict = {}
+        self.history = ''
 
 
-    def change_driver(self, SuperChanges, active_graph): 
-        for i in SuperChanges: 
-            edge_additions = i['+'] 
-            edge_subtractions = i['-']
-            edge_attributions = i['attr']
-    # this is where the active_graph should be Updated TODO
-
-        pass
-
-    
-
-    def time_step(self, active_graph, SPE_record, i): 
-
-        SuperS = self.SPE_driver(active_graph, i) 
-        SPE_record[i] = SuperS 
-        SuperChanges = self.graph_dynamics_engine(active_graph, i, SuperS) 
-        self.change_driver(SuperChanges, active_graph) 
+    def apply_changes(self, SuperC): 
+        for s in SuperC: 
+            for e in s.edges: 
+                self.active_graph.remove_edge(e) 
+            self.active_graph.update(SuperC[s])
 
 
+    def record_timestep(self, SuperS, SuperC, i): 
+        self.SPE_dict[i] = SuperS 
+        self.record_changes(SuperC,i)
         
+        pass
+    
+    def record_changes(self, SuperC,i):
+        for s in SuperC: 
+            # at the moment this wont do attributes and difference will never handle attributes 
+            plus = nx.difference(SuperC[s], s)
+            minus = nx.difference(s, SuperC[s]) 
+
+
+            for i,j in plus.edges: 
+                self.history.append(i, ' ',j, ' + \n')
+            
+            for i,j in plus.edges: 
+                self.history.append(i, ' ',j, ' - \n')
+
+
+    def super_changes(self, SuperS, i): 
+        SuperC = {}
+        for s in SuperS: 
+            newS = self.dynamic(s, self.active_graph, i)
+            SuperC[s] = newS
+        return SuperC 
+
+    def time_step(self, i):
+
+        SuperS = self.SPE_driver(self.active_graph, i) 
+        SuperC = self.super_changes(SuperS, i) 
+        self.apply_changes(SuperC)
+        self.record_timestep(SuperS,SuperC, i)
+
 
     def timestepper(self): 
         SPE_record = {}
-        active_graph = self.graph_initialiser() 
+        active_graph = self.active_graph
         for i in range(self.end_time): #check the indexing 
-            self.time_step(active_graph, SPE_record, i) 
-
-        return active_graph, SPE_record 
+            self.time_step(i) 
+        print(self.history)
     
+
+   
