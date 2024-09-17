@@ -9,6 +9,18 @@ timestep is everything that happens in a time step namely:
     - record_timestep records all the stuff that happens 
 
 '''
+
+def SuperSChecker(SuperS): 
+    for s in SuperS: 
+        print('this is the graph to be checked:',  s)
+        print('edges are:')
+        for e in s.edges:
+            print(e) 
+        print('nodes are:')
+        for n in s.nodes: 
+            print(n) 
+        
+
 class GraphSPEModel: 
     def __init__(
         self, 
@@ -31,7 +43,8 @@ class GraphSPEModel:
     def apply_changes(self, SuperC): 
         for s in SuperC: 
             for e in s.edges: 
-                self.active_graph.remove_edge(e) 
+                i,j = e
+                self.active_graph.remove_edge(i,j) 
             self.active_graph.update(SuperC[s])
 
 
@@ -49,10 +62,11 @@ class GraphSPEModel:
 
 
             for i,j in plus.edges: 
-                self.history.append(i, ' ',j, ' + \n')
-            
-            for i,j in plus.edges: 
-                self.history.append(i, ' ',j, ' - \n')
+                # self.history.append(i, ' ',j, ' + \n')
+                print(i, ' ',j, ' + \n') 
+            for i,j in minus.edges: 
+                # self.history.append(i, ' ',j, ' - \n')
+                print(i, ' ',j, ' - \n') 
 
 
     def super_changes(self, SuperS, i): 
@@ -63,7 +77,6 @@ class GraphSPEModel:
         return SuperC 
 
     def time_step(self, i):
-
         SuperS = self.SPE_driver(self.active_graph, i) 
         SuperC = self.super_changes(SuperS, i) 
         self.apply_changes(SuperC)
@@ -77,5 +90,3 @@ class GraphSPEModel:
             self.time_step(i) 
         print(self.history)
     
-
-   

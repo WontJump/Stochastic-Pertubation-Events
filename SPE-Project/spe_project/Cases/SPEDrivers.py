@@ -17,13 +17,15 @@ import dynetx as dn
 '''
 the only rules for the SPEdriver are 
 
+REALLY IMPORTANT!! 
+
 SuperS = self.SPE_driver(active_graph, i) 
 
 it takes the active_graph (including properties) and the time step and returns a set of sets (might not be sets in implementation) 
 
 '''
 
-def fixed_size_random(G, size = 2): 
+def fixed_size_random(G,time, size = 3): 
     '''
     takes active graph and a size parameter
     returns a subgraph whos nodes are a uniform random sample of size 'size' 

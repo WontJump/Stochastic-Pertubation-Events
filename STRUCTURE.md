@@ -61,3 +61,6 @@
     1. edit the functions within dynetex to allow adhoc edge removal 
     2. keep a historic record of edge additions/ attribute changes and a current networkx graph which can act as a place for our dynamics to take place. This is definitely not ideal but I'm too lazy to do 1 
 
+I'm a bit scared because the simple simulation I'm doing rn is added and subtracting nodes wven tho it should only be adding. However nothings crashing which is good!! REVIEW 
+
+
