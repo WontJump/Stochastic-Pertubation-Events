@@ -1,8 +1,10 @@
-import dynetx as dn 
-import networkx as nx 
 '''
-timestepper controls how many timesteps are triggered 
-timestep is everything that happens in a time step namely: 
+
+GraphSPEModel.py: Creates and simulates an SPE graph, given a dynamic and SPE driver
+
+SPE = Stochastic Permutation Events
+
+timestep is everything that happens in a time step namely:
     - SPE_driver chooses the sets where the dynamics will take place
     - SuperC is the set of all 'new graphs' after the dynamic takes place 
     - apply_changes applys these changes to the current graph 
@@ -10,7 +12,10 @@ timestep is everything that happens in a time step namely:
 
 '''
 
-def SuperSChecker(SuperS): 
+#imports
+import networkx as nx
+
+def SuperSChecker(SuperS):
     for s in SuperS: 
         print('this is the graph to be checked:',  s)
         print('edges are:')
@@ -21,6 +26,7 @@ def SuperSChecker(SuperS):
             print(n) 
         
 
+
 class GraphSPEModel: 
     def __init__(
         self, 
@@ -29,7 +35,12 @@ class GraphSPEModel:
         end_time = 5, 
         init_conditions = nx.Graph() ,
         ):
-
+        """
+        :param dynamic: Dynamic defined in graphDynamicsEngines.py
+        :param SPE_driver: SPEDriver defined in SPEDrivers.py
+        :param end_time: integer for time step to stop at (aka number of timesteps ran)
+        :param init_conditions: nx.Graph object the SPE graph starts as
+        """
         self.dynamic = dynamic
         self.SPE_driver = SPE_driver 
         self.end_time = end_time
@@ -77,13 +88,20 @@ class GraphSPEModel:
         return SuperC 
 
     def time_step(self, i):
+        """
+        Simulates 1 time step.
+        :param i: time step index
+        """
         SuperS = self.SPE_driver(self.active_graph, i) 
         SuperC = self.super_changes(SuperS, i) 
         self.apply_changes(SuperC)
         self.record_timestep(SuperS,SuperC, i)
 
 
-    def timestepper(self): 
+    def timestepper(self):
+        """
+        timestepper calls time_step from for each time step from 0 to end_time-1
+        """
         SPE_record = {}
         active_graph = self.active_graph
         for i in range(self.end_time): #check the indexing 

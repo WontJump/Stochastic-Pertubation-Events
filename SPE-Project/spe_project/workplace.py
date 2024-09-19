@@ -1,13 +1,20 @@
-import Cases.graphDynamicsEngines as gde
-import Cases.initialConditions as ic 
-import Cases.SPEDrivers as sped
+"""
+workplace.py
+"""
 
+# local imports
+import Cases.graphDynamicsEngines as gde
+import Cases.initialConditions as ic
+import Cases.SPEDrivers as sped
 import GraphSPEModel as gspem
+
+# global imports
 import networkx as nx 
+
+# Code Begin ---------------------------------------------------------------------
 
 speGraph = gspem.GraphSPEModel(gde.graph_completer, sped.fixed_size_random, end_time = 6, init_conditions =  nx.empty_graph(7))
 speGraph.timestepper()
-# okay this is printing a blank line so something isn't right 
 
 '''
 Debug log: 
@@ -23,7 +30,7 @@ Debug log:
 problem with difference or SuperS or ChangeS
 - looks like there is no graph for anything to happen with? The initial graph should have nodes but I'm not convinced it does
 - the initial graph works thats not the problem
-- when I activate the random sampler in SPEDrivers with an empty graph it returns the right values. It must be being actived 
+- when I activate the random sampler in SPEDrivers with an empty graph it returns the right values. It must be being activated 
 wrong somehow
 
 - FUCK. The SPE_driver is taking two arguments active_graph and i but i is being taken as the sample size!! bad documentation by me.

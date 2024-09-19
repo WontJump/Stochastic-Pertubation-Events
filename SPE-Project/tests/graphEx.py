@@ -1,4 +1,9 @@
-import random 
+"""
+graphEx.py: Testing Code
+"""
+
+# imports
+import random
 import networkx as nx 
 import dynetx as dn 
 import networkx as nx 
@@ -37,11 +42,11 @@ stringData = StringIO("""origin_code,destination_code,fare,flow_id
                       2,1,1,19""")
 
 df = pd.read_csv(stringData, sep = ",")
-TestGraph = nx.from_pandas_edgelist(df, source = 'origin_code', target = 'destination_code', edge_attr=True, create_using = nx.DiGraph)
-flowId = nx.get_edge_attributes(TestGraph,'flow_id')
+TestGraph2 = nx.from_pandas_edgelist(df, source = 'origin_code', target = 'destination_code', edge_attr=True, create_using = nx.DiGraph)
+flowId2 = nx.get_edge_attributes(TestGraph2,'flow_id')
 
 def graph2(): 
-    return TestGraph
+    return TestGraph2
 
 
 
