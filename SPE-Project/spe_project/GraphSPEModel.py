@@ -73,12 +73,15 @@ class GraphSPEModel:
 
 
             for i,j in plus.edges: 
-                # self.history.append(i, ' ',j, ' + \n')
-                print(i, ' ',j, ' + \n') 
-            for i,j in minus.edges: 
-                # self.history.append(i, ' ',j, ' - \n')
-                print(i, ' ',j, ' - \n') 
+                i,j = str(i), str(j)
+                # should use joins for this 
+                plusStr = i + ' ' + j  + ' + \n'
+                self.history += plusStr
 
+            for i,j in minus.edges: 
+                i,j = str(i), str(j)
+                minusStr = i + ' ' + j + ' + \n'
+                self.history += minusStr
 
     def super_changes(self, SuperS, i): 
         SuperC = {}
@@ -108,3 +111,6 @@ class GraphSPEModel:
             self.time_step(i) 
         print(self.history)
     
+    def file_record(self, file_name): 
+        with open(file_name, 'w') as file: 
+            file.write(self.history)

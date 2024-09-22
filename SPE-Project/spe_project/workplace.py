@@ -15,6 +15,7 @@ import networkx as nx
 
 speGraph = gspem.GraphSPEModel(gde.graph_completer, sped.fixed_size_random, end_time = 6, init_conditions =  nx.empty_graph(7))
 speGraph.timestepper()
+speGraph.file_record('first_file.txt') 
 
 '''
 Debug log: 
