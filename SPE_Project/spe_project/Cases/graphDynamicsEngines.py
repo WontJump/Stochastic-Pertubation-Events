@@ -23,8 +23,14 @@ from STRUCTURE.md, Potential dynamics to add:
 # import itertools as it
 import networkx as nx 
 import numpy as np 
+from Cases.graphDynamicFamilies import * # polutes namespace? 
 
 # Dynamics: -------------------------------------------------------
 
 def graph_completer(G, active_graph, i): 
     return nx.complete_graph(G.nodes)
+
+traidic_closure_with_random_death = GrindrodBirthDeathFrameWork(
+    death = rap(random_birth_or_death_noise,{'p': 0.99 }) ,
+    birth = rap(traidic_closure, {'d' : 0.2, 'e': 0.04}) 
+    ) # this should work for samples less than 20 (note this is the size of S in SuperS not the total graph) 

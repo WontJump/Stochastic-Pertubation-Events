@@ -60,27 +60,28 @@ class GraphSPEModel:
 
 
     def record_timestep(self, SuperS, SuperC, i): 
-        self.SPE_dict[i] = SuperS 
+        self.SPE_dict[i] = [{'Nodes': S.nodes, 'Edges' : S.edges} for S in SuperS]
         self.record_changes(SuperC,i)
         
         pass
     
     def record_changes(self, SuperC,i):
+        i = str(i)
         for s in SuperC: 
             # at the moment this wont do attributes and difference will never handle attributes 
             plus = nx.difference(SuperC[s], s)
             minus = nx.difference(s, SuperC[s]) 
 
 
-            for i,j in plus.edges: 
-                i,j = str(i), str(j)
+            for k,j in plus.edges: 
+                k,j = str(k), str(j)
                 # should use joins for this 
-                plusStr = i + ' ' + j  + ' + \n'
+                plusStr = ' '.join([ k , j ,'+', i + '\n' ])
                 self.history += plusStr
 
-            for i,j in minus.edges: 
-                i,j = str(i), str(j)
-                minusStr = i + ' ' + j + ' + \n'
+            for k,j in minus.edges: 
+                k,j = str(k), str(j)
+                minusStr = ' '.join([ k , j ,'-', i + '\n' ])
                 self.history += minusStr
 
     def super_changes(self, SuperS, i): 
@@ -113,4 +114,5 @@ class GraphSPEModel:
     
     def file_record(self, file_name): 
         with open(file_name, 'w') as file: 
+            file.write(str(self.SPE_dict))
             file.write(self.history)

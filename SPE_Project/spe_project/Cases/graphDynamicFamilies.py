@@ -19,7 +19,8 @@ def comp_array(n):
     array= np.ones((n,n), dtype = int) - np.identity(n) 
     return array 
 
-
+def rap(func, kwargs): 
+    return lambda G: func(G, **kwargs)
 
 
 
@@ -38,13 +39,13 @@ class GrindrodBirthDeathFrameWork:
         """
         pass
 
-    def dynamic(self, G, active_graph, i): 
-        n = len(G) 
+    def dynamic(self, G, active_graph, i): # be careful! when does this G become an array and when is it a Graph this is unclear
+        arr = nx.adjacency_matrix(G)   
+        n = arr.shape[0]
         I = comp_array(n)
-        G = nx.adjacency_matrix(G)
 
-        dyn = (I - self.death(G)) * G + self.birth(G) * (I - G)  
-        graph_instance = nx.stochastic_block_model(np.ones(n), dyn)
+        dyn = (I - self.death(arr)) * arr + self.birth(arr) * (I - arr)  
+        graph_instance = nx.stochastic_block_model([1 for i in range(n)], dyn, nodelist = list(G.nodes))
 
         return graph_instance
 
@@ -52,21 +53,6 @@ class GrindrodBirthDeathFrameWork:
     def __call__(self, G, active_graph, i):
         return self.dynamic(G, active_graph, i) 
 
-'''
-d=
-e=
-def temp_death(G):
-    return (triadic_closure(G,d,e))
-
-death = temp_death
-triad
-
-NOTE: we can just pass a dictionary to this and then unpack using ** 
-
-
-def funcraper(d,e) 
-    return lambda G : triad(G, d, e) 
-'''
 
 # I might have to wrap this in some sort of function in order to call it within the class (this is because it requires d,e to
 # be called but the class wont know to include those parameters)
@@ -76,7 +62,7 @@ def traidic_closure(G, d, e):
     :param e real \in [0, (1 - d)/(n - 2)] 
 
     """ 
-    n = G.ndim 
+    n = G.shape[0]  
 
     if not 0 < e < (1-d)/(n-2):
         raise ValueError(' e must be in the interval 0 < e < (1-d)/(n-2)')
@@ -87,9 +73,7 @@ def traidic_closure(G, d, e):
     return (d*I) + (e*I)*(G @ G) 
 
 def random_birth_or_death_noise(G,p): 
-    I = comp_array(G.ndim) 
-    return p*I 
+    I = comp_array(G.shape[0]) 
+    return p*I
 
-
-
-
+# ah okay so stochastic block model must be making a new node set which then fucks something else over 

@@ -13,7 +13,11 @@ import networkx as nx
 
 # Code Begin ---------------------------------------------------------------------
 
-speGraph = gspem.GraphSPEModel(gde.graph_completer, sped.fixed_size_random, end_time = 6, init_conditions =  nx.empty_graph(7))
+speGraph = gspem.GraphSPEModel(
+    gde.traidic_closure_with_random_death,
+    sped.fixed_size_random, 
+    end_time = 20, 
+    init_conditions =  nx.empty_graph(20))
 speGraph.timestepper()
 speGraph.file_record('first_file.txt') 
 
