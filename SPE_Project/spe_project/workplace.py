@@ -7,19 +7,21 @@ import Cases.graphDynamicsEngines as gde
 import Cases.initialConditions as ic
 import Cases.SPEDrivers as sped
 import GraphSPEModel as gspem
-
+import Analytics.ModelRunner as run 
 # global imports
 import networkx as nx 
 
 # Code Begin ---------------------------------------------------------------------
+
+data_path = '/home/wont-jump/Documents/GitHub/Stochastic-Pertubation-Events/SPE_Project/spe_project/Analytics/Data'
 
 speGraph = gspem.GraphSPEModel(
     gde.traidic_closure_with_random_death,
     sped.fixed_size_random, 
     end_time = 20, 
     init_conditions =  nx.empty_graph(20))
-speGraph.timestepper()
-speGraph.file_record('first_file.txt') 
+
+run.bulk_create(speGraph,5,'bulkreTest', data_path)
 
 '''
 Debug log: 

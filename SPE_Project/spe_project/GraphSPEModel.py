@@ -106,11 +106,13 @@ class GraphSPEModel:
         """
         timestepper calls time_step from for each time step from 0 to end_time-1
         """
-        SPE_record = {}
+        self.SPE_dict = {}
+        self.Change_dict = {}
+        self.history = ''
+
         active_graph = self.active_graph
         for i in range(self.end_time): #check the indexing 
             self.time_step(i) 
-        print(self.history)
     
     def file_record(self, file_name): 
         with open(file_name, 'w') as file: 

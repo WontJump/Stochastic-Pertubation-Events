@@ -1,7 +1,7 @@
-import networkx as nx 
 
-G = nx.Graph() 
-G.add_nodes_from([1,2,3,4,5])
 
-print(G.nodes) 
-print(list(G.nodes))
+from pathlib import Path
+
+current_directory = Path.cwd()
+new_directory = current_directory / "new_folder"
+new_directory.mkdir(parents=True, exist_ok=True)
