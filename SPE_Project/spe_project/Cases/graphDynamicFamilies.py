@@ -14,12 +14,24 @@ import numpy as np
 
 # Helper Functions  -------------------------------------------------
 
-def comp_array(n): 
+def comp_array(n):
+    """
+    returns the array of all 1's except for the diagonal which is 0. The adjacency matrix of a complete
+    undirect graph on n nodes
+
+    :param n: size of the square array 
+    """ 
 
     array= np.ones((n,n), dtype = int) - np.identity(n) 
     return array 
 
 def rap(func, kwargs): 
+    """
+    simple rapper to allow the GrindrodBirthDeathFrameWork to call functions like triadic closure 
+
+    :param func: function to be rapped 
+    :param kwags: kwargs (not including G) to be passed as a dictionary 
+    """
     return lambda G: func(G, **kwargs)
 
 
@@ -33,8 +45,10 @@ class GrindrodBirthDeathFrameWork:
         self.death = death
         self.birth= birth 
         """
-        param death_func defined in graphDynamicsEngines.py 
-        param birth_func defined in graphDynamicsEngines.py  
+        General family of Dynamics defined this paper https://www.maths.ed.ac.uk/~dhigham/Publications/P111.pdf
+
+        :param death_func: function defined below must take and return arr rather than graphs 
+        :param birth_func: similarly to above  
 
         """
         pass
@@ -56,8 +70,10 @@ class GrindrodBirthDeathFrameWork:
 
 # I might have to wrap this in some sort of function in order to call it within the class (this is because it requires d,e to
 # be called but the class wont know to include those parameters)
-def traidic_closure(G, d, e):
+def triadic_closure(G, d, e):
     """
+    triadic closure model defined in https://www.maths.ed.ac.uk/~dhigham/Publications/P111.pdf  
+
     :param d real \in [0,1]
     :param e real \in [0, (1 - d)/(n - 2)] 
 
@@ -73,6 +89,13 @@ def traidic_closure(G, d, e):
     return (d*I) + (e*I)*(G @ G) 
 
 def random_birth_or_death_noise(G,p): 
+    """
+    random noise to be used in the grindrod framework 
+
+    :param G: array to apply noise to 
+    :param p: probability of edge birth/death 
+    
+    """
     I = comp_array(G.shape[0]) 
     return p*I
 

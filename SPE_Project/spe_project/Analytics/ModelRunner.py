@@ -7,6 +7,15 @@ def bulk_create(
         file_name,
         file_path = None
         ):
+    """
+    bulk_create(function) runs a single SPEModel multiple times and stores the resultant files in a designated
+    folder 
+    
+    :param SPEModel: a model defined in GraphSPEModel.py
+    :param bulk_size: the number of times you want to run SPEModel
+    :param file_name: name of the files to be created 
+    :param file_path: alternative filepath to save new files to  
+    """
     
     if file_path: 
         current_directory = Path(file_path) 

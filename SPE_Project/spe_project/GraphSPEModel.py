@@ -115,6 +115,11 @@ class GraphSPEModel:
             self.time_step(i) 
     
     def file_record(self, file_name): 
+        """
+        returns a file in dynetx format with the SPE_dict 
+        dynetx: https://dynetx.readthedocs.io/en/latest/tutorial.html#creating-a-graph 
+        :param file_name: name of file created 
+        """
         with open(file_name, 'w') as file: 
             file.write(str(self.SPE_dict))
             file.write(self.history)

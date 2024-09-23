@@ -16,7 +16,7 @@ import networkx as nx
 data_path = '/home/wont-jump/Documents/GitHub/Stochastic-Pertubation-Events/SPE_Project/spe_project/Analytics/Data'
 
 speGraph = gspem.GraphSPEModel(
-    gde.traidic_closure_with_random_death,
+    gde.triadic_closure_with_random_death,
     sped.fixed_size_random, 
     end_time = 20, 
     init_conditions =  nx.empty_graph(20))
