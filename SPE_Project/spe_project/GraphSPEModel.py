@@ -121,5 +121,5 @@ class GraphSPEModel:
         :param file_name: name of file created 
         """
         with open(file_name, 'w') as file: 
-            file.write(str(self.SPE_dict))
+            file.write(str(self.SPE_dict) + '\n')
             file.write(self.history)

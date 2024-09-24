@@ -35,7 +35,12 @@ def graph_completer(G, active_graph, i):
     """
     return nx.complete_graph(G.nodes)
 
-traidic_closure_with_random_death = GrindrodBirthDeathFrameWork(
+triadic_closure_with_random_death = GrindrodBirthDeathFrameWork(
     death = rap(random_birth_or_death_noise,{'p': 0.99 }) ,
     birth = rap(triadic_closure, {'d' : 0.2, 'e': 0.04}) 
     ) # this should work for samples less than 20 (note this is the size of S in SuperS not the total graph) 
+
+grindrod_triadic = GrindrodBirthDeathFrameWork(
+    death = rap(random_birth_or_death_noise,{'p': 0.01 }) ,
+    birth = rap(triadic_closure, {'d' : 0.0004, 'e': 0.0005}) 
+    ) # this should work for a sample of 100
