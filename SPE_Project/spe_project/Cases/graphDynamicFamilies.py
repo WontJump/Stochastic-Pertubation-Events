@@ -32,7 +32,9 @@ def rap(func, kwargs):
     :param func: function to be rapped 
     :param kwags: kwargs (not including G) to be passed as a dictionary 
     """
-    return lambda G: func(G, **kwargs)
+    return lambda G, active_graph, i: func(G, active_graph, i, **kwargs) # Now I'm changing birth death to automatically take G, activeG and i 
+# I don't know if this will still work 
+
 
 
 
@@ -58,7 +60,7 @@ class GrindrodBirthDeathFrameWork:
         n = arr.shape[0]
         I = comp_array(n)
 
-        dyn = (I - self.death(arr)) * arr + self.birth(arr) * (I - arr)  
+        dyn = (I - self.death(G, active_graph, i)) * arr + self.birth(G, active_graph, i) * (I - arr)  
         graph_instance = nx.stochastic_block_model([1 for i in range(n)], dyn, nodelist = list(G.nodes))
 
         return graph_instance
@@ -78,6 +80,8 @@ def triadic_closure(G, d, e):
     :param e real \in [0, (1 - d)/(n - 2)] 
 
     """ 
+
+    arr = nx.adjacency_matrix(G)   
     n = G.shape[0]  
 
     if not 0 < e < (1-d)/(n-2):
@@ -100,3 +104,19 @@ def random_birth_or_death_noise(G,p):
     return p*I
 
 # ah okay so stochastic block model must be making a new node set which then fucks something else over 
+
+
+def inner_triadic_closure(G, active_graph, i , d, out_lim, in_lim):
+    size_g = len(G)
+    size_active = len(active_graph)
+
+    graph_out = nx.adjacency_matrix(nx.difference(active_graph,G))  
+    graph_in = nx.adjacency_matrix(G)
+
+    e_1 = out_lim/(size_active - size_g)
+    e_2 = in_lim/(size_g - 2) 
+
+    I = comp_array(size_g)
+
+    return d*I + I*(e_1*(graph_out @ graph_out) + e_2 *(graph_in @ graph_in)) 
+   
