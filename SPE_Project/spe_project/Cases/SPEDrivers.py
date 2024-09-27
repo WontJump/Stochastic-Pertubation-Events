@@ -25,7 +25,7 @@ import dynetx as dn
 
 # SPE Drivers ------------------------------------------------------------#
 
-def fixed_size_random(G, i, size = 20 ):
+def fixed_size_random(G, i, size = 5 ):
     """
     the subgraph is a copy of the relevant subgraph not a view... it might be better if the edits did automatically carry over
     :param G: active graph

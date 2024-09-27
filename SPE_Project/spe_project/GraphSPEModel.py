@@ -45,6 +45,7 @@ class GraphSPEModel:
         self.SPE_driver = SPE_driver 
         self.end_time = end_time
         self.active_graph = init_conditions
+        self.init_conditions = init_conditions
 
         self.SPE_dict = {}
         self.Change_dict = {}
@@ -106,11 +107,13 @@ class GraphSPEModel:
         """
         timestepper calls time_step from for each time step from 0 to end_time-1
         """
+        self.active_graph = self.init_conditions
         self.SPE_dict = {}
         self.Change_dict = {}
         self.history = ''
 
-        active_graph = self.active_graph
+        active_graph = self.active_graph  # I don't think i ever use this variable? 
+        
         for i in range(self.end_time): #check the indexing 
             self.time_step(i) 
     

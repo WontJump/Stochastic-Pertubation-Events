@@ -16,12 +16,12 @@ import networkx as nx
 data_path = '/home/wont-jump/Documents/GitHub/Stochastic-Pertubation-Events/SPE_Project/Analytics/Data'
 
 speGraph = gspem.GraphSPEModel(
-    gde.grindrod_triadic,
+    gde.event_triadic,
     sped.fixed_size_random, 
     end_time = 20, 
-    init_conditions =  nx.empty_graph(100))
+    init_conditions =  nx.empty_graph(20))
 
-run.bulk_create(speGraph,4,'GrindrodTest', data_path)
+run.bulk_create(speGraph,4,'event_triadic', data_path)
 
 '''
 Debug log: 

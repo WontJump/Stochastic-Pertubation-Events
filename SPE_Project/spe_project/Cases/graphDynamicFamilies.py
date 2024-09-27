@@ -11,6 +11,7 @@ any particular instance of this function will then be instantised there
 
 import networkx as nx 
 import numpy as np 
+import copy as copy 
 
 # Helper Functions  -------------------------------------------------
 
@@ -72,7 +73,7 @@ class GrindrodBirthDeathFrameWork:
 
 # I might have to wrap this in some sort of function in order to call it within the class (this is because it requires d,e to
 # be called but the class wont know to include those parameters)
-def triadic_closure(G, d, e):
+def triadic_closure(G, active_graph, i, d, e):
     """
     triadic closure model defined in https://www.maths.ed.ac.uk/~dhigham/Publications/P111.pdf  
 
@@ -82,7 +83,7 @@ def triadic_closure(G, d, e):
     """ 
 
     arr = nx.adjacency_matrix(G)   
-    n = G.shape[0]  
+    n = arr.shape[0]  
 
     if not 0 < e < (1-d)/(n-2):
         raise ValueError(' e must be in the interval 0 < e < (1-d)/(n-2)')
@@ -90,33 +91,53 @@ def triadic_closure(G, d, e):
         raise ValueError(' n must be >= 2')
     
     I = comp_array(n) 
-    return (d*I) + (e*I)*(G @ G) 
+    return (d*I) + (e*I)*(arr @ arr) 
 
-def random_birth_or_death_noise(G,p): 
+def random_birth_or_death_noise(G,active_graph, i,p): 
     """
     random noise to be used in the grindrod framework 
 
-    :param G: array to apply noise to 
+    :param G: graph! no longer takes arrays  
     :param p: probability of edge birth/death 
     
     """
-    I = comp_array(G.shape[0]) 
+    arr = nx.adjacency_matrix(G)
+    I = comp_array(arr.shape[0]) 
     return p*I
 
 # ah okay so stochastic block model must be making a new node set which then fucks something else over 
 
 
 def inner_triadic_closure(G, active_graph, i , d, out_lim, in_lim):
+    """
+    :param d: as in traidic closure chance of random edge birth 
+    :param out_lim: upper bound on the amount of probability open traingles from outside S \in SuperS can add to edge formation
+    :param in_lim: limit on the amount of probability from triangles inside S 
+    """
     size_g = len(G)
     size_active = len(active_graph)
 
-    graph_out = nx.adjacency_matrix(nx.difference(active_graph,G))  
+
+    H = copy.deepcopy(G) # this whole thing is riddle with performance issues 
+    extraNodes = [i for i in active_graph.nodes if i not in H.nodes]
+    H.add_nodes_from(extraNodes)
+
     graph_in = nx.adjacency_matrix(G)
+    graph_out = nx.adjacency_matrix(nx.difference(active_graph,H))
 
     e_1 = out_lim/(size_active - size_g)
     e_2 = in_lim/(size_g - 2) 
 
+    graph_out_squared = graph_out @ graph_out
+    graph_out_squared = graph_out_squared[np.ix_(G.nodes, G.nodes)]
+
+    # print(Gnodes)
+    # print(graph_out_squared)
+    # print(graph_in.shape)
+    # print(graph_out_squared.shape)
+    # exit()
+
     I = comp_array(size_g)
 
-    return d*I + I*(e_1*(graph_out @ graph_out) + e_2 *(graph_in @ graph_in)) 
+    return d*I + (e_1*(graph_out_squared) + e_2 *(graph_in @ graph_in)) 
    
