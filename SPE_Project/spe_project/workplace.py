@@ -18,10 +18,11 @@ data_path = '/home/wont-jump/Documents/GitHub/Stochastic-Pertubation-Events/SPE_
 speGraph = gspem.GraphSPEModel(
     gde.event_triadic,
     sped.fixed_size_random, 
-    end_time = 20, 
-    init_conditions =  nx.empty_graph(20))
+    end_time = 500, 
+    init_conditions =  nx.empty_graph(80))
 
 run.bulk_create(speGraph,4,'event_triadic', data_path)
+
 
 '''
 Debug log: 

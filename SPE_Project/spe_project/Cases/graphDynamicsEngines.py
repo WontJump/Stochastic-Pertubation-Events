@@ -49,4 +49,3 @@ event_triadic = GrindrodBirthDeathFrameWork(
     death = rap(random_birth_or_death_noise,{'p': 0.1 }) ,
     birth = rap(inner_triadic_closure, {'d' : 0.1, 'out_lim': 0.2, 'in_lim' : 0.3}) 
     ) # this should work for a sample of 100
-
