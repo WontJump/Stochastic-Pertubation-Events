@@ -77,8 +77,8 @@ def triadic_closure(G, active_graph, i, d, e):
     """
     triadic closure model defined in https://www.maths.ed.ac.uk/~dhigham/Publications/P111.pdf  
 
-    :param d real \in [0,1]
-    :param e real \in [0, (1 - d)/(n - 2)] 
+    :param d real in [0,1]
+    :param e real in [0, (1 - d)/(n - 2)] 
 
     """ 
 
@@ -111,7 +111,7 @@ def random_birth_or_death_noise(G,active_graph, i,p):
 def inner_triadic_closure(G, active_graph, i , d, out_lim, in_lim):
     """
     :param d: as in traidic closure chance of random edge birth 
-    :param out_lim: upper bound on the amount of probability open traingles from outside S \in SuperS can add to edge formation
+    :param out_lim: upper bound on the amount of probability open traingles from outside S in SuperS can add to edge formation
     :param in_lim: limit on the amount of probability from triangles inside S 
     """
     size_g = len(G)
@@ -140,4 +140,3 @@ def inner_triadic_closure(G, active_graph, i , d, out_lim, in_lim):
     I = comp_array(size_g)
 
     return d*I + (e_1*(graph_out_squared) + e_2 *(graph_in @ graph_in)) 
-   

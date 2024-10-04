@@ -34,18 +34,27 @@ class GraphSPEModel:
         SPE_driver,
         end_time = 5, 
         init_conditions = nx.Graph() ,
+        random_init = False 
         ):
         """
         :param dynamic: Dynamic defined in graphDynamicsEngines.py
         :param SPE_driver: SPEDriver defined in SPEDrivers.py
         :param end_time: integer for time step to stop at (aka number of timesteps ran)
         :param init_conditions: nx.Graph object the SPE graph starts as
+        :param random_init: sometime its useful to have the model randomly generate the init_conditions every time the 
+        model is run (for example in the model runner)
         """
         self.dynamic = dynamic
         self.SPE_driver = SPE_driver 
         self.end_time = end_time
-        self.active_graph = init_conditions
+
         self.init_conditions = init_conditions
+        self.random_init = random_init 
+
+        if random_init: 
+            self.active_graph = init_conditions()
+        else:
+            self.active_graph = init_conditions
 
         self.SPE_dict = {}
         self.Change_dict = {}
@@ -107,7 +116,11 @@ class GraphSPEModel:
         """
         timestepper calls time_step from for each time step from 0 to end_time-1
         """
-        self.active_graph = self.init_conditions
+        if self.random_init: 
+            self.active_graph = self.init_conditions()
+        else: 
+            self.active_graph = self.init_conditions
+
         self.SPE_dict = {}
         self.Change_dict = {}
         self.history = ''

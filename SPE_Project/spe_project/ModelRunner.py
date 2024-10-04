@@ -1,4 +1,5 @@
 from pathlib import Path
+import time 
 data_path = '/home/wont-jump/Documents/GitHub/Stochastic-Pertubation-Events/SPE_Project/spe_project/Analytics/Data'
 
 def bulk_create(
@@ -26,10 +27,21 @@ def bulk_create(
     new_directory = current_directory / dir_name
     new_directory.mkdir(parents=True, exist_ok=True)
 
-    for i in range(bulk_size): 
+    # just a quick timing run to give me an idea of how long I should wait 
+
+    start_time = time.time() 
+    current_file_name = file_name + 'File' + str(1) + '.txt'
+    path = new_directory / current_file_name
+    path = str(path)
+    SPEModel.timestepper()
+    SPEModel.file_record(path)
+    end_time = time.time() 
+
+    print(f"Predicted execution time: {(end_time - start_time)*(bulk_size - 1)} seconds")
+
+    for i in range(bulk_size - 1): 
         current_file_name = file_name + 'File' + str(i) + '.txt'
         path = new_directory / current_file_name
         path = str(path)
         SPEModel.timestepper()
         SPEModel.file_record(path)
-
