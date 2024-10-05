@@ -43,6 +43,12 @@ class GraphSPEModel:
         :param init_conditions: nx.Graph object the SPE graph starts as
         :param random_init: sometime its useful to have the model randomly generate the init_conditions every time the 
         model is run (for example in the model runner)
+
+        if random_init = true then init_conditions has to be a function which returns another function which takes no params
+        and returns a graph on calling 
+
+        
+
         """
         self.dynamic = dynamic
         self.SPE_driver = SPE_driver 

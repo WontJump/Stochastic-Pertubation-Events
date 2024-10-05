@@ -10,18 +10,23 @@ import GraphSPEModel as gspem
 import ModelRunner as run 
 # global imports
 import networkx as nx 
+from Cases.graphDynamicFamilies import rap
 
 # Code Begin ---------------------------------------------------------------------
 
 data_path = '/home/wont-jump/Documents/GitHub/Stochastic-Pertubation-Events/SPE_Project/Analytics/Data'
+def erdos_rap(n,p): 
+    return lambda : nx.erdos_renyi_graph(n,p) 
+
 
 speGraph = gspem.GraphSPEModel(
-    gde.event_triadic,
-    sped.fixed_size_random, 
-    end_time = 500, 
-    init_conditions =  nx.empty_graph(80))
+    gde.grindrod_triadic,
+    lambda G,i: sped.fixed_size_random(G,i,size = 100), 
+    end_time = 1500, 
+    init_conditions =  erdos_rap(100,0.3),
+    random_init = True)
 
-run.bulk_create(speGraph,4,'event_triadic', data_path)
+run.bulk_create(speGraph,4,'testytesty', data_path)
 
 
 '''

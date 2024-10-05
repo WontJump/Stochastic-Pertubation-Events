@@ -1,7 +1,9 @@
+import networkx as nx 
 
+def erdos_rap(n,p): 
+    return nx.erdos_renyi_graph(n,p)
 
-from pathlib import Path
-
-current_directory = Path.cwd()
-new_directory = current_directory / "new_folder"
-new_directory.mkdir(parents=True, exist_ok=True)
+if erdos_rap(100, 0.3) == erdos_rap(100, 0.3): 
+    print('fuck') 
+else: 
+    print('ok')
