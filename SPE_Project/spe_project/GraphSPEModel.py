@@ -65,6 +65,17 @@ class GraphSPEModel:
         self.SPE_dict = {}
         self.Change_dict = {}
         self.history = ''
+        self.initial_record = '' + str(self.active_graph.number_of_nodes) + '\n'
+
+        for k,j in self.active_graph.edges: 
+            k,j = str(k), str(j)
+            # should use joins for this 
+            plusStr = ' '.join([ k , j ,'+', '0' + '\n' ])
+            self.initial_record += plusStr
+
+           
+
+             
 
 
     def apply_changes(self, SuperC): 
@@ -82,7 +93,7 @@ class GraphSPEModel:
         pass
     
     def record_changes(self, SuperC,i):
-        i = str(i)
+        i = str(i + 1) # I've added one here so I can record the initial graph as edges added at time 0 
         for s in SuperC: 
             # at the moment this wont do attributes and difference will never handle attributes 
             plus = nx.difference(SuperC[s], s)
@@ -143,5 +154,20 @@ class GraphSPEModel:
         :param file_name: name of file created 
         """
         with open(file_name, 'w') as file: 
+            file.write('file format 001')
             file.write(str(self.SPE_dict) + '\n')
+            file.write(self.initial_record)
             file.write(self.history)
+
+
+    '''
+    the file format string is meant to give a way of knowing what old formats for data recordings were
+    
+    001:
+    file format string 
+    SPE dict record in timestep : nodes: , edges: format 
+    initial record first number of nodes in the initial graph and then additions in dynetx form 
+    the dynetx form history 
+
+    
+    '''

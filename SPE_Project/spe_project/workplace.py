@@ -8,9 +8,9 @@ import Cases.initialConditions as ic
 import Cases.SPEDrivers as sped
 import GraphSPEModel as gspem
 import ModelRunner as run 
+from Cases.graphDynamicFamilies import rap
 # global imports
 import networkx as nx 
-from Cases.graphDynamicFamilies import rap
 
 # Code Begin ---------------------------------------------------------------------
 
@@ -26,7 +26,7 @@ speGraph = gspem.GraphSPEModel(
     init_conditions =  erdos_rap(100,0.3),
     random_init = True)
 
-run.bulk_create(speGraph,4,'testytesty', data_path)
+run.bulk_create(speGraph,5,'grindrodTriadicSettings', data_path)
 
 
 '''
