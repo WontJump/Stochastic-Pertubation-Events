@@ -1,3 +1,18 @@
+# Brief aside
+
+This is some object oriented code in order to model a particular type of dynamic graph. 
+
+Intuitively: suppose we have a game where n people say who their friends are at the end of each timestep. We suppose that if you put a group of people in a room they interact more hence they are more likely to make friends (but also those friendships are also more likely to die). Triadic closure also acts (this Suppose A+B means A is friends with B then A+B, B+C => A+C at least it increases the probability).
+
+My question is: if I allow you to control the rooms they are in, what is the best way to do it in order to maximise or minimise friendships? 
+
+
+Currently this code can succesfully produce these simualations but the viz is not working. Some statistics and analytics have been implemented.
+
+
+
+
+
 # What I want 
 
 **Graph current state** 
